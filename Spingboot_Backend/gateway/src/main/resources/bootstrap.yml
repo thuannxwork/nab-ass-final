@@ -1,0 +1,102 @@
+server:
+  port: 8888
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    hostname: localhost
+    status-page-url: http://${eureka.instance.hostname}:${server.port}/swagger-ui.html
+management:
+  security:
+    enabled: false
+security:
+  basic:
+    enabled: false
+logging:
+  level:
+    org.zalando.logbook: TRACE
+  pattern:
+    console: "[%d{dd/MM/yyyy HH:mm:ss,SSS}] %m%n"
+    file: "[%d{dd/MM/yyyy HH:mm:ss,SSS}] %m%n"
+
+zuul:
+  ignoredPatterns:
+    - /auth/login/**
+    - /auth/signup/**
+    - /auth/verify/**
+    - /auth/password/**
+  routes:
+    api-customer:
+      path: /api/customer/**
+      serviceId: customer
+    api-auth:
+      path: /api/sso/**
+      serviceId: sso
+    api-inventory:
+      path: /api/inventory/**
+      serviceId: inventory
+    api-payment:
+      path: /api/payment/**
+      serviceId: payment
+  host:
+    connect-timeout-millis: 200000
+    socket-timeout-millis: 200000
+  ignored-headers: Access-Control-Allow-Credentials, Access-Control-Allow-Origin, Access-Control-Allow-Credentials, Access-Control-Allow-Headers, Access-Control-Allow-Methods
+
+ribbon:
+  eureka:
+    enabled: true
+  ReadTimeout: 30000
+  ConnectTimeout: 30000
+  maxAutoRetries: 1
+  MaxAutoRetriesNextServer: 2
+  OkToRetryOnAllOperations: true
+
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 190000
+spring:
+  cloud:
+    config:
+      failFast: true
+      retry:
+        initialInterval: 3000
+        multiplier: 1.3
+        maxInterval: 5000
+        maxAttempts: 20
+      uri: http://localhost:8000
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - OPTIONS
+  session:
+    store-type: none
+  profiles:
+    active: localhost
+  application:
+    name: gateway
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  mvc:
+    dispatch-options-request: true
+  jackson:
+    time-zone: "Asia/Ho_Chi_Minh"

@@ -1,0 +1,73 @@
+<app-navigation></app-navigation>
+<div class="container">
+  <br>
+  <form class="form-horizontal shadow p-3 mb-5 bg-white rounded" #f="ngForm"
+        (ngSubmit)="f.form.valid && updateProd(desc,quan,price,prodname,image)">
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label">Product Name</label>
+          <input type="text" class="form-control col-md-9" placeholder="Product Name" #prodname
+                 ngModel name="prodname" [(ngModel)]="product.name">
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3">Category</label>
+          <select class="form-control col-md-9" id="brand" name="brand"
+                  ngModel name="category" #category [(ngModel)]="product.categoryId">
+            <option *ngFor="let opt of categoryList" [value]="opt.id">{{opt.name}}</option>
+          </select>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3">Price</label>
+          <input type="text" class="form-control col-md-9" placeholder="price" name="price" #price
+                 ngModel [(ngModel)]="product.price">
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3">Brand</label>
+          <select class="form-control col-md-9" id="brand" name="brand"
+                  ngModel name="category" #brand [(ngModel)]="product.brandId">
+            <option *ngFor="let opt of brandList" [value]="opt.id">{{opt.name}}</option>
+          </select>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3">Color</label>
+          <input type="text" class="form-control col-md-9" placeholder="color" name="color" #color
+                 ngModel [(ngModel)]="product.color">
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3">Description</label>
+          <textarea type="text" class="form-control col-md-9" placeholder="description" name="desc"
+                    #desc ngModel [(ngModel)]="product.description" rows="5"></textarea>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3">Quantity</label>
+          <input type="text" class="form-control col-md-9" placeholder="quantity" name="quan" #quan
+                 ngModel [(ngModel)]="product.quantity">
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3">Picture</label>
+          <input type="file" class="form-control col-md-9" placeholder="Product Picture" #image
+                 accept="image/*" name="image"
+                 (change)="handleFileInput($event.target.files)">
+        </div>
+      </div>
+      <div class="col-3">
+        <p><b>Original Image</b></p>
+        <img src="data:image/png;base64,{{product.image}}"
+             style="width:70%;height: 60%;">
+
+      </div>
+      <div class="col-3">
+        <p><b>New Image</b></p>
+        <img [src]="imageUrl" style="width:250px;height: 200px;">
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <input type="submit" class="btn btn-primary" value="Save">
+        <button class="mybtn btn btn-secondary ml-3" (click)="goToHome()">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>

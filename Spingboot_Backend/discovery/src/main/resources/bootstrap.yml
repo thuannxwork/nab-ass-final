@@ -1,0 +1,30 @@
+spring:
+  profiles:
+    active: default
+  application:
+    name: discovery
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+  jackson:
+    time-zone: "Asia/Ho_Chi_Minh"
+logging:
+  pattern:
+    console: "[%d{dd/MM/yyyy HH:mm:ss,SSS}] %m%n"
+    file: "[%d{dd/MM/yyyy HH:mm:ss,SSS}] %m%n"
+server:
+  port: 8761
+eureka:
+  datacenter: main
+  environment: default
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    enableSelfPreservation: false
+
