@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: "jdbc:mysql://localhost:3306/nab_ass_new?nab_ass_new?autoReconnect=true&useSSL=false"
+    username: root
+    password: root
+  #Redis configurations
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password:
+    jedis:
+      pool:
+        max-idle: 8
+        max-wait: -1
+        min-idle: 0
+        timeout: 0
